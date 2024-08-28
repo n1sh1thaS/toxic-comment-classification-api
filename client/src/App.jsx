@@ -2,6 +2,7 @@
 //import reactLogo from "./assets/react.svg";
 //import viteLogo from "/vite.svg";
 import "./App.css";
+import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -11,6 +12,7 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

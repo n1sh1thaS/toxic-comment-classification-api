@@ -4,7 +4,11 @@ import App from "./App.jsx";
 //import './index.css'
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 
-const theme = createTheme({});
+const theme = createTheme({
+  typography: {
+    fontFamily: "Roboto",
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

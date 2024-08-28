@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, AppBar, Toolbar, Button } from "@mui/material";
 
 const NavBar = (props) => {
-  const { showLogin, showSignup, showLogout } = props;
+  const { showLogin, showSignup, showLogout, showHome } = props;
 
   const handleLogout = () => {
     window.location = "/";
@@ -16,7 +16,7 @@ const NavBar = (props) => {
             <Button
               variant="text"
               href="/"
-              sx={{ color: "white", fontSize: 18 }}
+              sx={{ color: "white", fontSize: 16 }}
             >
               Toxic Comment Classification API
             </Button>
@@ -45,9 +45,11 @@ const NavBar = (props) => {
                 Logout
               </Button>
             )}
-            <Button variant="text" sx={{ color: "white" }}>
-              About
-            </Button>
+            {showHome && (
+              <Button variant="text" href="/" sx={{ color: "white" }}>
+                Home
+              </Button>
+            )}
           </Typography>
         </Toolbar>
       </AppBar>

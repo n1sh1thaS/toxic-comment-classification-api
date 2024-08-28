@@ -8,13 +8,13 @@ const SignUp = () => {
     <div>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <NavBar showLogin />
+          <NavBar showLogin showHome />
         </Grid>
         <Grid item xs={12} marginTop={18}>
           <Typography
             variant="h3"
             align="center"
-            sx={{ fontSize: 35, marginBottom: 5 }}
+            sx={{ fontSize: 35, marginBottom: 5, fontWeight: "500" }}
           >
             Create Your Account
           </Typography>
