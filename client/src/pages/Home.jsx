@@ -19,7 +19,7 @@ const Home = () => {
           Toxic Comment Classification API
         </Typography>
         <Typography variant="body1" marginTop={6} sx={{ fontSize: 22 }}>
-          Welcome! This Toxic Comment Classification API helps ensure safe{" "}
+          Welcome! This Toxic Comment Classification API helps ensure safe
           <br />
           and respectful communication on your digital platforms.
         </Typography>
