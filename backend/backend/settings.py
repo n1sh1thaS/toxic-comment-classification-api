@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "toxic_comment_classification_api"
 ]
 
 MIDDLEWARE = [
