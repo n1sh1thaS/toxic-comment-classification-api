@@ -1,14 +1,16 @@
 import { TextField, Button, Box } from "@mui/material";
 import React, { useState } from "react";
+import { createUser } from "../../services/user-service";
 
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(username, email, password);
+    const userCreateSuccess = await createUser(username, email, password);
+    if (userCreateSuccess) window.location = "/keys";
   };
 
   return (
