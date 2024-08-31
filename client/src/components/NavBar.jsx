@@ -5,6 +5,7 @@ const NavBar = (props) => {
   const { showLogin, showSignup, showLogout, showHome } = props;
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     window.location = "/";
   };
 

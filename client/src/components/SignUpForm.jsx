@@ -1,6 +1,6 @@
 import { TextField, Button, Box } from "@mui/material";
 import React, { useState } from "react";
-import { createUser } from "../../services/user-service";
+import { createUser } from "../services/user-service";
 
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
