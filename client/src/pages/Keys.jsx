@@ -1,15 +1,24 @@
-import React from "react";
-import { Grid, Typography, Box, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Grid, Typography, Box } from "@mui/material";
 import NavBar from "../components/NavBar";
 import NewKeyModal from "../components/NewKeyModal";
 import NewProjectModal from "../components/NewProjectModal";
 const Keys = () => {
-  const testProjects = [
-    "firstProject",
-    "insureGPT",
-    "classification API",
-    "project Grid",
-  ];
+  const [projects, setProjects] = useState([]);
+  //get user projects
+  const getProjects = () => {
+    const testProjects = [
+      "firstProject",
+      "insureGPT",
+      "classification API",
+      "project Grid",
+    ];
+    setProjects(testProjects);
+  };
+  useEffect(() => {
+    getProjects();
+  }, []);
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
@@ -27,8 +36,8 @@ const Keys = () => {
           <NewProjectModal />
         </Box>
         <Box margin="5% 10% 0% 10%">
-          {testProjects.map((title, index) => (
-            <NewKeyModal key={index} title={title} />
+          {projects.map((title, index) => (
+            <NewKeyModal key={index} title={title} id={index} />
           ))}
         </Box>
       </Grid>
@@ -43,14 +52,33 @@ const Keys = () => {
         <Typography
           variant="body1"
           margin="3% 0% 0% 5%"
-          sx={{ fontWeight: "300", fontSize: 18 }}
+          component="pre"
+          sx={{ fontWeight: "300", fontSize: 18, whiteSpace: "pre-wrap" }}
         >
-          Send request to http://localhost:8000/api/classify <br />
-          request object:
-          {' {apiKey: "include your key here", text: "text to be classified"}'}
+          Send a POST request to http://localhost:8000/api/classify/
+          {"<project-ID>"} <br />
+          Note: Project ID's are visible under each project's name in the list
+          above <br /> <br />
+          Request Format: <br />
+          fetch ( 'http://localhost:8000/api/classify/
+          {"<project-ID>"}' ,
+          {` { 
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Api-Key YOUR_API_KEY'
+            },
+            body: JSON.stringify({
+              text: '<text-to-be-classified>',
+            })
+          }`}
           <br />
-          response object:
-          {" {score: [0, 0, 1, 0, 1, 0]}"} where 0 means false and 1 means true
+          )
+          <br />
+          <br />
+          Response Object:
+          {" { classification: [0, 0, 1, 0, 1, 0] }"} where 0 means false and 1
+          means true
           <br />
           Each element in the response object array corresponds to (in order)
           ...

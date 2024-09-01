@@ -15,7 +15,7 @@ const modalStyle = {
 };
 
 const NewKeyModal = (props) => {
-  const { title } = props;
+  const { title, id } = props;
   const [openModal, setOpenModal] = useState(false);
   const [newKey, setNewKey] = useState("Error Generating Key. Try Again.");
 
@@ -32,8 +32,10 @@ const NewKeyModal = (props) => {
         justifyContent={"space-between"}
         margin="2%"
       >
-        <span style={{ fontWeight: "bold" }}>{title}</span>
-        <Button onClick={generateNewKey}>Generate New Key</Button>
+        <span style={{ fontWeight: "bold" }}>
+          {title} <br /> ID: {id}
+        </span>
+        <Button onClick={generateNewKey}>Generate New API Key</Button>
       </Box>
       <Modal
         open={openModal}
@@ -47,7 +49,7 @@ const NewKeyModal = (props) => {
               error
               id="standard-read-only-input"
               defaultValue={newKey}
-              label="Your New API Key"
+              label={`Your New API Key for ${title}`}
               variant="standard"
               slotProps={{
                 input: {

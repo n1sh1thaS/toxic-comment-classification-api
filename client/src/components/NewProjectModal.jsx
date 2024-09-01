@@ -50,7 +50,7 @@ const NewProjectModal = (props) => {
                   : null
               }
             />
-            {!key && <Button onClick={createProject}>Generate Key</Button>}
+            {!key && <Button onClick={createProject}>Generate API Key</Button>}
             {key && (
               <TextField
                 error
