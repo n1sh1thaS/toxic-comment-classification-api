@@ -8,3 +8,12 @@ export const addProject = async (title) => {
     throw new Exception(err.message);
   }
 };
+
+export const getProjectTitles = async () => {
+  try {
+    const projectRes = await axios.get("api/projects/get_projects/");
+    return projectRes.data.titles;
+  } catch (err) {
+    throw new Exception(err.message);
+  }
+};

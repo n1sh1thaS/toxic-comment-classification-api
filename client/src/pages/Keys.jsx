@@ -3,19 +3,25 @@ import { Grid, Typography, Box } from "@mui/material";
 import NavBar from "../components/NavBar";
 import NewKeyModal from "../components/NewKeyModal";
 import NewProjectModal from "../components/NewProjectModal";
+import { getProjectTitles } from "../services/project-api-service";
 const Keys = () => {
   const [projects, setProjects] = useState([]);
   //get user projects
-  const getProjects = () => {
+  const getProjects = async () => {
     const testProjects = [
       "firstProject",
       "insureGPT",
       "classification API",
       "project Grid",
     ];
-    setProjects(testProjects);
+    const projectTitles = await getProjectTitles();
+    setProjects(projectTitles);
   };
   useEffect(() => {
+    const getProjects = async () => {
+      const projectTitles = await getProjectTitles();
+      setProjects(projectTitles);
+    };
     getProjects();
   }, []);
 
