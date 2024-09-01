@@ -17,3 +17,14 @@ export const createUser = async (username, email, password) => {
     throw new Exception(err.message);
   }
 };
+
+export const getToken = async (email, password) => {
+  try {
+    const jwtRes = await axios.post("auth/jwt/create/", { email, password });
+    if (jwtRes.data.access) localStorage.setItem("token", jwtRes.data.access);
+    if (localStorage.getItem("token")) return true;
+    return false;
+  } catch (err) {
+    throw new Exception(err.message);
+  }
+};

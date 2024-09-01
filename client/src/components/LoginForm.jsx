@@ -1,13 +1,15 @@
 import { TextField, Button, Box } from "@mui/material";
 import React, { useState } from "react";
+import { getToken } from "../services/user-service";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(email, password);
+    const loginSuccess = await getToken(email, password);
+    if (loginSuccess) window.location = "/keys";
   };
   return (
     <form onSubmit={onSubmit}>
