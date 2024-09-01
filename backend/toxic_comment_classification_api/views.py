@@ -61,7 +61,7 @@ class ClassifierAPIKeyViewSet(viewsets.ViewSet):
 
 #create view to validate the api key when using it to access the classification model
 class ValidateAPIKeyViewSet(viewsets.ViewSet):
-    permission_classes = [hasAPIKey]
+    permission_classes = [HasAPIKey]
     serializer_class = ClassifierAPIKeySerializer
 
 @api_view(['GET', 'PATCH'])

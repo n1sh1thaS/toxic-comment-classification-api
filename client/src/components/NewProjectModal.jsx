@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Box, IconButton, TextField } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
+import { addProject } from "../services/project-api-service";
 
 const modalStyle = {
   position: "absolute",
@@ -19,9 +20,10 @@ const NewProjectModal = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [key, setKey] = useState(null);
 
-  const createProject = () => {
+  const createProject = async () => {
     //generate key + project
-    setKey("12345random");
+    const keyRes = await addProject(title);
+    setKey(keyRes);
   };
 
   const resetModal = () => {
@@ -49,6 +51,7 @@ const NewProjectModal = (props) => {
                     }
                   : null
               }
+              onChange={(res) => setTitle(res.target.value)}
             />
             {!key && <Button onClick={createProject}>Generate API Key</Button>}
             {key && (
