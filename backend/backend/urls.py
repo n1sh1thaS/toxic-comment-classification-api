@@ -20,7 +20,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("toxic_comment_classification_api/", include('toxic_comment_classification_api.urls')),
+    path("api/", include('toxic_comment_classification_api.urls')),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt"))
 ]

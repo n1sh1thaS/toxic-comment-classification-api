@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework_api_key",
     "corsheaders",
     "djoser",
     "toxic_comment_classification_api",
@@ -146,6 +147,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    "DEFAULT_PERMISSION_CLASSES": [
+       "rest_framework_api_key.permissions.HasAPIKey",
+    ]
 }
 
 SIMPLE_JWT = {
