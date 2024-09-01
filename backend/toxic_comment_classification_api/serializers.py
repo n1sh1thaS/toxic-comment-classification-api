@@ -10,9 +10,10 @@ class UserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ['id', 'title', 'user']
+        fields = ['id', 'title']
 
 class ClassifierAPIKeySerializer(serializers.ModelSerializer):
+    title = serializers.CharField(max_length=255)
     class Meta:
         model = ClassifierAPIKey
-        fields = ['id', 'project', 'key']
+        fields = ['id', 'title']

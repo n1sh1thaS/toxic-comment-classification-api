@@ -16,4 +16,4 @@ class Project(models.Model):
 
 class ClassifierAPIKey(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="api_key")
-    key = models.ForeignKey(APIKey, on_delete=models.CASCADE, related_name="classification_key")
+    key = models.OneToOneField(APIKey, on_delete=models.CASCADE, related_name="classification_key")
