@@ -17,3 +17,12 @@ export const getProjectTitles = async () => {
     throw new Exception(err.message);
   }
 };
+
+export const updateKey = async (title) => {
+  try {
+    const keyRes = await axios.post("api/apikey/update_key/", { title });
+    return keyRes.data.apiKey;
+  } catch (err) {
+    throw new Exception(err.message);
+  }
+};

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Box, IconButton, TextField } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
-
+import { updateKey } from "../services/project-api-service";
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -19,11 +19,18 @@ const NewKeyModal = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [newKey, setNewKey] = useState("Error Generating Key. Try Again.");
 
-  const generateNewKey = () => {
+  const generateNewKey = async () => {
     //generate key and replace old key
-    setNewKey("12345random");
+    const keyRes = await updateKey(title);
+    setNewKey(keyRes);
     setOpenModal(true);
   };
+
+  const resetModal = () => {
+    setOpenModal(false);
+    setNewKey("Error Generating Key. Try Again.");
+  };
+
   return (
     <>
       <Box
@@ -37,12 +44,7 @@ const NewKeyModal = (props) => {
         </span>
         <Button onClick={generateNewKey}>Generate New API Key</Button>
       </Box>
-      <Modal
-        open={openModal}
-        onClose={() => {
-          setOpenModal(false);
-        }}
-      >
+      <Modal open={openModal} onClose={resetModal}>
         <Box sx={modalStyle}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <TextField
@@ -59,12 +61,7 @@ const NewKeyModal = (props) => {
               helperText="You will not be able to view this API key again. Ensure that you have saved it securely. Generate a new key if needed."
             />
             <Box align="center">
-              <IconButton
-                onClick={() => {
-                  setOpenModal(false);
-                }}
-                sx={{ align: "left" }}
-              >
+              <IconButton onClick={resetModal} sx={{ align: "left" }}>
                 <DoneIcon fontSize="small" />
               </IconButton>
             </Box>
