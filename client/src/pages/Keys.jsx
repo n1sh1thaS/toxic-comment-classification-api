@@ -3,20 +3,12 @@ import { Grid, Typography, Box } from "@mui/material";
 import NavBar from "../components/NavBar";
 import NewKeyModal from "../components/NewKeyModal";
 import NewProjectModal from "../components/NewProjectModal";
-import { getProjectTitles } from "../services/project-api-service";
+import { getProjectTitles, addProject } from "../services/project-api-service";
 const Keys = () => {
   const [projects, setProjects] = useState([]);
+  const [key, setKey] = useState(null);
+
   //get user projects
-  const getProjects = async () => {
-    const testProjects = [
-      "firstProject",
-      "insureGPT",
-      "classification API",
-      "project Grid",
-    ];
-    const projectTitles = await getProjectTitles();
-    setProjects(projectTitles);
-  };
   useEffect(() => {
     const getProjects = async () => {
       const projectTitles = await getProjectTitles();
@@ -24,6 +16,13 @@ const Keys = () => {
     };
     getProjects();
   }, []);
+
+  const createProject = async (title) => {
+    //generate key + project
+    const keyRes = await addProject(title);
+    setKey(keyRes);
+    setProjects([...projects, title]);
+  };
 
   return (
     <Grid container spacing={3}>
@@ -39,7 +38,7 @@ const Keys = () => {
           Your Projects and API Keys
         </Typography>
         <Box align="center" marginTop={3}>
-          <NewProjectModal />
+          <NewProjectModal createProject={createProject} apikey={key} />
         </Box>
         <Box margin="5% 10% 0% 10%">
           {projects.map((title, index) => (

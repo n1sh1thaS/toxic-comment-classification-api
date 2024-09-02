@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Box, IconButton, TextField } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
-import { addProject } from "../services/project-api-service";
+//import { addProject } from "../services/project-api-service";
 
 const modalStyle = {
   position: "absolute",
@@ -16,21 +16,15 @@ const modalStyle = {
 };
 
 const NewProjectModal = (props) => {
+  const { createProject, apikey } = props;
   const [title, setTitle] = useState("Untitled");
   const [openModal, setOpenModal] = useState(false);
-  const [key, setKey] = useState(null);
-
-  const createProject = async () => {
-    //generate key + project
-    const keyRes = await addProject(title);
-    setKey(keyRes);
-  };
 
   const resetModal = () => {
     setOpenModal(false);
-    setKey("");
     setTitle("Untitled");
   };
+
   return (
     <>
       <Button onClick={() => setOpenModal(true)}>Create New Project</Button>
@@ -38,12 +32,12 @@ const NewProjectModal = (props) => {
         <Box sx={modalStyle}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <TextField
-              id={key ? "standard-read-only-input" : "standard"}
+              id={apikey ? "standard-read-only-input" : "standard"}
               defaultValue={title}
               label="Project Name"
               variant="standard"
               slotProps={
-                key
+                apikey
                   ? {
                       input: {
                         readOnly: true,
@@ -53,12 +47,16 @@ const NewProjectModal = (props) => {
               }
               onChange={(res) => setTitle(res.target.value)}
             />
-            {!key && <Button onClick={createProject}>Generate API Key</Button>}
-            {key && (
+            {!apikey && (
+              <Button onClick={() => createProject(title)}>
+                Generate API Key
+              </Button>
+            )}
+            {apikey && (
               <TextField
                 error
                 id="standard-read-only-input"
-                defaultValue={key}
+                defaultValue={apikey}
                 label="Your API Key"
                 variant="standard"
                 slotProps={{
