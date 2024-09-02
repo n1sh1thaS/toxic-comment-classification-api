@@ -5,6 +5,7 @@ from rest_framework import routers
 router = routers.SimpleRouter()
 router.register(r'projects', views.ProjectViewSet)
 router.register(r'apikey', views.ClassifierAPIKeyViewSet)
+router.register(r'classify', views.ClassificationViewSet)
 
 urlpatterns = [
     path('users/<int:id>', views.get_user),

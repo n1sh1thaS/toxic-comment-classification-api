@@ -60,9 +60,22 @@ class ClassifierAPIKeyViewSet(viewsets.ViewSet):
 
 
 #create view to validate the api key when using it to access the classification model
-class ValidateAPIKeyViewSet(viewsets.ViewSet):
+class ClassificationViewSet(viewsets.ViewSet):
     permission_classes = [HasAPIKey]
-    serializer_class = ClassifierAPIKeySerializer
+    queryset = APIKey.objects.all()
+
+    @action(detail=False, methods=['post'])
+    def validate_key(self, request):
+        key = request.META["HTTP_AUTHORIZATION"].split()[1]
+        api_key = APIKey.objects.get_from_key(key)
+        classifier_key = ClassifierAPIKey.objects.filter(key_id=api_key).first()
+        if(classifier_key):
+            project = Project.objects.filter(id = classifier_key.project_id).first()
+            if(project.title == request.data.get("title")):
+                #call model to get result here
+                return Response({"classification": [0, 0, 0, 0, 0, 0]}, status=status.HTTP_200_OK)
+        return Response("invalid API Key", status=status.HTTP_401_UNAUTHORIZED)
+
 
 @api_view(['GET', 'PATCH'])
 def get_user(request, id):

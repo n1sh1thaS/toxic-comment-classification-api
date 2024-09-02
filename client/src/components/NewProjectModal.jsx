@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Box, IconButton, TextField } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
-//import { addProject } from "../services/project-api-service";
 
 const modalStyle = {
   position: "absolute",
