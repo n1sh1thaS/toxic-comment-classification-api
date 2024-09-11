@@ -61,12 +61,10 @@ const Keys = () => {
           sx={{ fontWeight: "300", fontSize: 18, whiteSpace: "pre-wrap" }}
         >
           Send a POST request to http://localhost:8000/api/classify/
-          {"<project-ID>"} <br />
-          Note: Project ID's are visible under each project's name in the list
-          above <br /> <br />
+          <br />
+          <br />
           Request Format: <br />
-          fetch ( 'http://localhost:8000/api/classify/
-          {"<project-ID>"}' ,
+          fetch ( 'http://localhost:8000/api/classify/' ,
           {` { 
             method: 'POST',
             headers: {
@@ -74,6 +72,7 @@ const Keys = () => {
               'Authorization': 'Api-Key YOUR_API_KEY'
             },
             body: JSON.stringify({
+              title: '<project-title>'
               text: '<text-to-be-classified>',
             })
           }`}
@@ -88,12 +87,12 @@ const Keys = () => {
           Each element in the response object array corresponds to (in order)
           ...
           <ul>
-            <li>threat</li>
-            <li>identity hate</li>
             <li>toxic</li>
             <li>severely toxic</li>
-            <li>insult</li>
             <li>obscene</li>
+            <li>threat</li>
+            <li>insult</li>
+            <li>identity hate</li>
           </ul>
         </Typography>
       </Grid>

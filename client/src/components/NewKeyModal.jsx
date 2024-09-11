@@ -39,9 +39,7 @@ const NewKeyModal = (props) => {
         justifyContent={"space-between"}
         margin="2%"
       >
-        <span style={{ fontWeight: "bold" }}>
-          {title} <br /> ID: {id}
-        </span>
+        <span style={{ fontWeight: "bold" }}>{title}</span>
         <Button onClick={generateNewKey}>Generate New API Key</Button>
       </Box>
       <Modal open={openModal} onClose={resetModal}>
