@@ -37,7 +37,8 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_HEADERS = [
     'content-type',
-    'jwt'
+    'jwt',
+    'authorization'
 ]
 
 # Application definition
