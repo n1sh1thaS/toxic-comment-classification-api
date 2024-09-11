@@ -7,8 +7,13 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 
 from rest_framework_api_key.models import APIKey
-from .models import User, Project, ClassifierAPIKey
-from .serializers import UserSerializer, ProjectSerializer, ClassifierAPIKeySerializer
+from .models import Project, ClassifierAPIKey
+from .serializers import ProjectSerializer, ClassifierAPIKeySerializer
+
+import joblib
+from sklearn.feature_extraction.text import TfidfVectorizer
+model = joblib.load('../toxic-comment-model/toxicity_classifier.joblib')
+vectorizer = joblib.load('../toxic-comment-model/tfidf_vectorizer.joblib')
 # Create your views here.
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -32,10 +37,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         for title in project_titles:
             titles.append(title["title"])
         return Response({"titles": titles}, status=status.HTTP_200_OK)
-    
-    @action(detail=False, methods=['post'])
-    def validate_key(self, request):
-        return Response("key validated")
 
 class ClassifierAPIKeyViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -58,44 +59,27 @@ class ClassifierAPIKeyViewSet(viewsets.ViewSet):
         else:
             return Response({"apiKey" : "error generating new key"}, status = status.HTTP_400_BAD_REQUEST)
 
-
-#create view to validate the api key when using it to access the classification model
 class ClassificationViewSet(viewsets.ViewSet):
     permission_classes = [HasAPIKey]
     queryset = APIKey.objects.all()
-
+    
     @action(detail=False, methods=['post'])
-    def validate_key(self, request):
+    def classify(self, request):
+        #validate API key -- ensure it is connected to the given project
         key = request.META["HTTP_AUTHORIZATION"].split()[1]
         api_key = APIKey.objects.get_from_key(key)
         classifier_key = ClassifierAPIKey.objects.filter(key_id=api_key).first()
         if(classifier_key):
             project = Project.objects.filter(id = classifier_key.project_id).first()
             if(project.title == request.data.get("title")):
-                #call model to get result here
-                return Response({"classification": [0, 0, 0, 0, 0, 0]}, status=status.HTTP_200_OK)
+                #call model and return result if API key is valid
+                if(isinstance(request.data.get("text"), str)):
+                   text = request.data.get("text")#.lower().replace("you", "")
+                   if(model):
+                        text = vectorizer.transform([text])
+                        classification = model.predict(text)
+                        return Response({"classification": classification}, status=status.HTTP_200_OK)
+                   else: return Response({"try again later"}, status=status.HTTP_409_CONFLICT)
+                else: return Response("invalid input text", status=status.HTTP_400_BAD_REQUEST)
         return Response("invalid API Key", status=status.HTTP_401_UNAUTHORIZED)
-
-
-@api_view(['GET', 'PATCH'])
-def get_user(request, id):
-    user = User.objects.get(pk=id)
-    if request.method == 'GET':
-        try:
-            serializer = UserSerializer(user)
-            return Response(serializer.data)
-        except User.DoesNotExist:
-            return Response(status = status.HTTP_404_NOT_FOUND)
-    elif request.method == 'PATCH':
-        serializer = UserSerializer(user, data = request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status = status.HTTP_200_OK)
     
-@api_view(['POST'])
-def create_user(request):
-    serializer = UserSerializer(data = request.data)
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
-    #print(serializer.validated_data)
-    return Response(serializer.data, status = status.HTTP_201_CREATED)
