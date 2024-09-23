@@ -74,7 +74,7 @@ class ClassificationViewSet(viewsets.ViewSet):
             if(project.title == request.data.get("title")):
                 #call model and return result if API key is valid
                 if(isinstance(request.data.get("text"), str)):
-                   text = request.data.get("text").lower().replace("you", "")
+                   text = request.data.get("text")
                    if(model):
                         text = vectorizer.transform([text])
                         classification = model.predict(text)
